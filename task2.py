@@ -18,36 +18,36 @@ class Triangle:
         self.c = c
 
 @singledispatch
-def area(shape, *args, **kwargs):
+def area(shape):
     raise NotImplementedError("Cannot compute area for this shape.")
 
 @singledispatch
-def perimeter(shape, *args, **kwargs):
+def perimeter(shape):
     raise NotImplementedError("Cannot compute perimeter for this shape.")
 
 @area.register(Circle)
-def _(shape, *args, **kwargs):
+def _(shape):
     return pi * shape.radius ** 2
 
 @perimeter.register(Circle)
-def _(shape, *args, **kwargs):
+def _(shape):
     return 2 * pi * shape.radius
 
 @area.register(Rectangle)
-def _(shape, *args, **kwargs):
+def _(shape):
     return shape.width * shape.height
 
 @perimeter.register(Rectangle)
-def _(shape, *args, **kwargs):
+def _(shape):
     return 2 * (shape.width + shape.height)
 
 @perimeter.register(Triangle)
-def _(shape, *args, **kwargs):
+def _(shape):
     return shape.a + shape.b + shape.c
 
 @area.register(Triangle)
-def _(shape, *args, **kwargs):
-    p = perimeter(shape, *args, **kwargs) / 2
+def _(shape):
+    p = perimeter(shape) / 2
     return math.sqrt(p * (p-shape.a) * (p - shape.b) * (p- shape.c))
 
 
