@@ -1,17 +1,30 @@
+from functools import singledispatch
+
+@singledispatch
 def pretty_print(var):
-    if type(var) == int:
-       if var % 2 == 0:
-           print(f"{var} is even number")
-       else:
-           print(f"{var} is odd number")
-    elif type(var) == float:
-        print(f"Displaying with 2 decimal precision= {var:.2f}")
-    elif type(var) == str:
-        print(f"Length= " + str(len(var)) + "\nReverse Order= '" + var[::-1] + "'")
-    elif type(var) == dict:
-        print(f"Number of keys= {len(var)}" + "\nKey-Value pairs= " + str(var))
+    print(f"{type(var)} - {var}")
+
+@pretty_print.register(int)
+def _(var):
+    if var % 2 == 0:
+        print(f"{var} is even number")
     else:
-        print(str(type(var)) + " - " + str(var))
+        print(f"{var} is odd number")
+
+@pretty_print.register(float)
+def _(var):
+    print(f"Displaying with 2 decimal precision= {var:.2f}")
+
+@pretty_print.register(str)
+def _(var):
+    print(f"Length= {len(var)}")
+    print(f"Reverse Order= '{var[::-1]}'")
+
+@pretty_print.register(dict)
+def _(var):
+    print(f"Number of keys= {len(var)}")
+    print(f"Key-Value pairs= {var}")
+
 
 pretty_print(8)
 pretty_print(3.14159)
